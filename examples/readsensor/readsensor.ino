@@ -14,7 +14,7 @@ void setup() {
 
 
 void loop() {
-/*  
+
     // temperature is an integer in hundredths
     int temperature = sensor.getCelsiusHundredths();
     temperature = temperature / 100;
@@ -38,7 +38,7 @@ void loop() {
         pulse(led1); 
     }
     delay(5000);
-*/
+
     // enable internal heater for testing
     sensor.setHeater(true);
     delay(20000);
@@ -55,7 +55,6 @@ void loop() {
     delay(20000);
 
     // get humidity and temperature in one shot, saves power because sensor takes temperature when doing humidity anyway
-    
     si7021_env data = sensor.getHumidityAndTemperature();
     for (int i = 0; i < data.celsiusHundredths/100; i++) {
         pulse(led1); 
