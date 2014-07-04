@@ -25,7 +25,7 @@ void loop() {
     delay(5000);
     
     // humidity is an integer representing percent
-    int humidity = sensor.getHumidityPct();
+    int humidity = sensor.getHumidityPercent();
     for (int i = 0; i < humidity; i++) {
         pulse(led2); 
     }
@@ -59,7 +59,7 @@ void loop() {
     for (int i = 0; i < data.celsiusHundredths/100; i++) {
         pulse(led1); 
     }
-    for (int i = 0; i < data.humidityPct; i++) {
+    for (int i = 0; i < data.humidityPercent; i++) {
         pulse(led2); 
     }
     delay(5000);

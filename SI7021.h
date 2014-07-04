@@ -23,7 +23,7 @@ This program is licensed, please check with the copyright holder for terms
 typedef struct si7021_env {
     unsigned int celsiusHundredths;
     unsigned int fahrenheitHundredths;
-    unsigned int humidityPct;
+    unsigned int humidityPercent;
 } si7021_env;
 
 class SI7021
@@ -33,7 +33,7 @@ class SI7021
     bool begin();
     unsigned int getFahrenheitHundredths();
     unsigned int getCelsiusHundredths();
-    unsigned int getHumidityPct();
+    unsigned int getHumidityPercent();
     struct si7021_env getHumidityAndTemperature();
     int getSerialBytes(byte * buf);
     int getDeviceId();
