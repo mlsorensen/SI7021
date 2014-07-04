@@ -64,6 +64,13 @@ unsigned int SI7021::getHumidityPercent() {
     return ((125 * humraw) >> 16) - 6;
 }
 
+unsigned int SI7021::getHumidityBasisPoints() {
+    byte humbytes[2];
+    _command(RH_READ, humbytes);
+    long humraw = (long)humbytes[0] << 8 | humbytes[1];
+    return ((12500 * humraw) >> 16) - 600;
+}
+
 void SI7021::_command(byte * cmd, byte * buf ) {
     _writeReg(cmd, sizeof cmd);
     _readReg(buf, sizeof buf);
@@ -121,8 +128,8 @@ void SI7021::setHeater(bool on) {
 // get humidity, then get temperature reading from humidity measurement
 struct si7021_env SI7021::getHumidityAndTemperature() {
     si7021_env ret = {0, 0, 0};
-    ret.humidityPercent      = getHumidityPercent();
-    ret.celsiusHundredths    = _getCelsiusPostHumidity();
-    ret.fahrenheitHundredths = (1.8 * ret.celsiusHundredths) + 3200;
+    ret.humidityBasisPoints      = getHumidityBasisPoints();
+    ret.celsiusHundredths        = _getCelsiusPostHumidity();
+    ret.fahrenheitHundredths     = (1.8 * ret.celsiusHundredths) + 3200;
     return ret;
 }
