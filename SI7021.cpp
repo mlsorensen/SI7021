@@ -19,29 +19,37 @@ byte USER1_WRITE[]       = { 0xE6 };
 byte SERIAL1_READ[]      = { 0xFA, 0x0F };
 byte SERIAL2_READ[]      = { 0xFC, 0xC9 };
 
+bool _si_exists = false;
 
 SI7021::SI7021() {
 }
 
 bool SI7021::begin() {
     Wire.begin();
-    // device takes 80ms max to come up, let's make sure we wait at least that long
-    delay(80);
+    Wire.beginTransmission(I2C_ADDR);
+    if (Wire.endTransmission() == 0) {
+        _si_exists = true;
+    }
+    return _si_exists;
 }
 
-unsigned int SI7021::getFahrenheitHundredths() {
+bool SI7021::sensorExists() {
+    return _si_exists;
+}
+
+int SI7021::getFahrenheitHundredths() {
     unsigned int c = getCelsiusHundredths();
     return (1.8 * c) + 3200;
 }
 
-unsigned int SI7021::getCelsiusHundredths() {
+int SI7021::getCelsiusHundredths() {
     byte tempbytes[2];
     _command(TEMP_READ, tempbytes);
     long tempraw = (long)tempbytes[0] << 8 | tempbytes[1];
     return ((17572 * tempraw) >> 16) - 4685;
 }
 
-unsigned int SI7021::_getCelsiusPostHumidity() {
+int SI7021::_getCelsiusPostHumidity() {
     byte tempbytes[2];
     _command(POST_RH_TEMP_READ, tempbytes);
     long tempraw = (long)tempbytes[0] << 8 | tempbytes[1];
