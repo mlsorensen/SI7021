@@ -1,7 +1,7 @@
 /*
 Copyright 2014 Marcus Sorensen <marcus@electron14.com>
 
-This program is licensed, please check with the copyright holder for terms
+This program is licensed under the GNU GPL v2
 */
 #include "Arduino.h"
 #include "SI7021.h"

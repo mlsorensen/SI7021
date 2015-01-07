@@ -1,7 +1,7 @@
 /*
   Copyright 2014 Marcus Sorensen <marcus@electron14.com>
 
-This program is licensed, please check with the copyright holder for terms
+This program is licensed under the GNU GPL v2
 */
 #ifndef si7021_h
 #define si7021_h
