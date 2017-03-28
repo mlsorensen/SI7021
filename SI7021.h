@@ -38,6 +38,7 @@ class SI7021
     unsigned int getHumidityBasisPoints();
     struct si7021_env getHumidityAndTemperature();
     int getSerialBytes(byte * buf);
+    int getEightByteSerial(byte * buf);
     int getDeviceId();
     void setHeater(bool on);
   private:

@@ -45,9 +45,9 @@ void loop() {
     sensor.setHeater(false);
     
     // see if heater changed temperature
-    int temperature = sensor.getCelsiusHundredths();
-    temperature = temperature / 100;
-    for (int i = 0; i < temperature; i++) {
+    int newtemperature = sensor.getCelsiusHundredths();
+    newtemperature = newtemperature / 100;
+    for (int i = 0; i < newtemperature; i++) {
         pulse(led2); 
     }
     
@@ -59,10 +59,14 @@ void loop() {
     for (int i = 0; i < data.celsiusHundredths/100; i++) {
         pulse(led1); 
     }
-    for (int i = 0; i < data.humidityPercent; i++) {
+    for (unsigned int i = 0; i < data.humidityBasisPoints; i++) {
         pulse(led2); 
     }
     delay(5000);
+
+    // get serial
+    byte serial[8];
+    sensor.getEightByteSerial(serial);
 }
 
 void pulse(int pin) {

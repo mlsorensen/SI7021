@@ -96,6 +96,7 @@ int SI7021::_readReg(byte * reg, int reglen) {
 }
 
 //note this has crc bytes embedded, per datasheet, so provide 12 byte buf
+// DEPRECATED, keeping to avoid breaking linked code
 int SI7021::getSerialBytes(byte * buf) {
     _writeReg(SERIAL1_READ, sizeof SERIAL1_READ);
     _readReg(buf, 6);
@@ -107,10 +108,32 @@ int SI7021::getSerialBytes(byte * buf) {
     return 1;
 }
 
+// we ignore CRC here, provide 8 byte buffer
+// use this instead of getSerialBytes
+int SI7021::getEightByteSerial(byte * buf) {
+    // note we are ignoring CRC bytes
+    byte serial[8];
+    _writeReg(SERIAL1_READ, sizeof SERIAL1_READ);
+    _readReg(serial, 8);
+    buf[0] = serial[0]; //SNA_3
+    buf[1] = serial[2]; //SNA_2
+    buf[2] = serial[4]; //SNA_1
+    buf[3] = serial[6]; //SNA_0
+
+    _writeReg(SERIAL2_READ, sizeof SERIAL2_READ);
+    _readReg(serial, 6);
+    buf[4] = serial[0]; //SNB_3, AKA SI device type ID
+    buf[5] = serial[1]; //SNB_2
+    buf[6] = serial[3]; //SNB_1
+    buf[7] = serial[4]; //SNB_0
+
+    return 1;
+}
+
 int SI7021::getDeviceId() {
-    byte serial[12];
-    getSerialBytes(serial);
-    int id = serial[6];
+    byte serial[8];
+    getEightByteSerial(serial);
+    int id = serial[4];
     return id;
 }
 
